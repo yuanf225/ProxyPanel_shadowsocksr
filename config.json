@@ -6,8 +6,8 @@
     "local_port": 1080,
 
     "password": "m",
-    "method": "aes-128-ctr",
-    "protocol": "auth_aes128_md5",
+    "method": "aes-192-ctr",
+    "protocol": "auth_sha1_v4_compatible",
     "protocol_param": "",
     "obfs": "tls1.2_ticket_auth_compatible",
     "obfs_param": "",
@@ -19,7 +19,7 @@
     "timeout": 120,
     "udp_timeout": 60,
     "dns_ipv6": false,
-    "connect_verbose_info": 0,
-    "redirect": "",
+    "connect_verbose_info": 1,
+    "redirect": ["www.amazon.com", "images-na.ssl-images-amazon.com", "m.media-amazon.com", "kdp.amazon.com", "php.net"],
     "fast_open": false
 }
