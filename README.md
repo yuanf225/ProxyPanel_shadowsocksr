@@ -1,23 +1,24 @@
 SSRR 3.2.2
 
+兼容SSRPanel的自改版SSR(R)后端，可兼容原版SS、SSR
 
 #### 1.安装
-```
+
     git clone https://github.com/ssrpanel/shadowsocksr.git
 
 或者通过wget下载
 
     wget https://github.com/ssrpanel/shadowsocksr/archive/master.zip && unzip master && mv shadowsocksr-master shadowsocksr
 
-```
+
 
 #### 2.安装cymysql
-```
+
     sh setup_cymysql2.sh
-```
+
 
 #### 3.编辑节点配置（混淆、协议、限速、IPV6）
-```
+
     vi user-mysql.json
 
     ** protocol ** 协议，带 _compatible 结尾兼容 原版，直接用原版可以改为 origin
@@ -30,10 +31,9 @@ SSRR 3.2.2
     ** connect_verbose_info ** 为1时记录用户访问网址，推荐打开，可以清楚知道连接成功与否
     redirect 请求失败时返回信息伪造成访问配置里网址
 
-```
 
 #### 4.编辑数据库连接信息
-```
+
     vi usermysql.json
 
     ** host ** 数据库地址，如果是本机就是127.0.0.1
@@ -43,17 +43,16 @@ SSRR 3.2.2
     ** db ** 面板所在数据库
     ** node_id ** 节点ID，对应面板里的 节点列表 最左侧的id（请先将面板搭建好，然后创建一个节点，就有节点ID了）
     ** transfer_mul ** 节点流量计算比例，默认1.0，填1也可以，1表示：用了100M算100M，10表示用了100M算1000M，0.1表示用了100M算10M。
-```
 
 #### 5.运行、关闭、看日志
-```
+
     sh logrun.sh
     sh stop.sh
     sh tail.sh
-```
 
 #### 其他
 
-    - 数据库机的 iptables、firewall 得对本节点IP开放
-    - 数据库机的 mysql 的对本节点进行授权（不推荐使用root账号）
-    - 再不懂可以进小群咨询 [我要进小群](https://github.com/ssrpanel/SSRPanel/wiki/%E6%88%91%E8%A6%81%E8%BF%9B%E5%B0%8F%E7%BE%A4)
+    数据库机的 iptables、firewall 得对本节点IP开放
+    数据库机的 mysql 的对本节点进行授权（不推荐使用root账号）
+    再不懂可以进小群咨询 [我要进小群](https://github.com/ssrpanel/SSRPanel/wiki/%E6%88%91%E8%A6%81%E8%BF%9B%E5%B0%8F%E7%BE%A4)
+
