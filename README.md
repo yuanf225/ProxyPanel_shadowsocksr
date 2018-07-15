@@ -1,105 +1,46 @@
-ShadowsocksR
-===========
+SSRR 3.2.2
 
-[![Build Status]][Travis CI]
 
-A fast tunnel proxy that helps you bypass firewalls.
-
-Server
-------
-
-### Install
-
-Debian / Ubuntu:
-
-    apt-get install git
+#### 1.安装
+```
     git clone https://github.com/ssrpanel/shadowsocksr.git
 
-CentOS:
+或者通过wget下载
 
-    yum install git
-    git clone https://github.com/ssrpanel/shadowsocksr.git
+    wget https://github.com/ssrpanel/shadowsocksr/archive/master.zip && unzip master && mv shadowsocksr-master shadowsocksr
 
-Windows:
+```
 
-    git clone https://github.com/ssrpanel/shadowsocksr.git
+#### 2.安装cymysql
+```
+    sh setup_cymysql2.sh
+```
 
-### Usage for single user on linux platform
+#### 3.编辑节点配置（混淆、协议、限速、IPV6）
+```
+    vi user-mysql.json
 
-If you clone it into "~/shadowsocksr"  
-move to "~/shadowsocksr", then run:
+    ** protocol ** 协议，带 _compatible 结尾兼容 原版，直接用原版可以改为 origin
+    ** protocol_param ** 协议参数，配置了的话，客户端也要一致
+    ** obfs ** 混淆 tls1.2_ticket_auth 可以限制客户端数量 tls1.2_ticket_auth_compatible 兼容原版，直接用原版可以改为 plain
+    ** obfs_param ** 混淆参数，当obfs为 tls1.2_ticket_auth 的时候，这个值为 1 到 256 之间，表示限制客户端数量
+    additional_ports 单端口配置，请看wiki
+    additional_ports_only 强制单端口，改为true则所有非设置的单端口都无法连接，只能用additional_ports设置的那些端口连接
+    dns_ipv6 为true时，强制服务器优先走ipv6，需要节点服务器至少有一个2开头的ipv6地址（有时候会导致IPV4失效）
+    connect_verbose_info 为1时记录用户访问网址，推荐打开，可以清楚知道连接成功与否
+    redirect 请求失败时返回信息伪造成访问配置里网址
 
-    bash initcfg.sh
+```
 
-move to "~/shadowsocksr/shadowsocks", then run:
+#### 4.运行、关闭、看日志
+```
+    sh logrun.sh
+    sh stop.sh
+    sh tail.sh
+```
 
-    python server.py -p 443 -k password -m aes-128-cfb -O auth_aes128_md5 -o tls1.2_ticket_auth_compatible
+#### 5.注意
 
-Check all the options via `-h`.
-
-You can also use a configuration file instead (recommend), move to "~/shadowsocksr" and edit the file "user-config.json", then move to "~/shadowsocksr/shadowsocks" again, just run:
-
-    python server.py
-
-To run in the background:
-
-    ./logrun.sh
-
-To stop:
-
-    ./stop.sh
-
-To monitor the log:
-
-    ./tail.sh
-
-
-Client
-------
-
-* [Windows] / [macOS]
-* [Android] / [iOS]
-* [OpenWRT]
-
-Use GUI clients on your local PC/phones. Check the README of your client
-for more information.
-
-Documentation
--------------
-
-You can find all the documentation in the [Wiki].
-
-License
--------
-
-Copyright 2015 clowwindy
-
-Licensed under the Apache License, Version 2.0 (the "License"); you may
-not use this file except in compliance with the License. You may obtain
-a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-License for the specific language governing permissions and limitations
-under the License.
-
-Bugs and Issues
-----------------
-
-* [Issue Tracker]
-
-
-
-[Android]:           https://github.com/shadowsocksr/shadowsocksr-android
-[Build Status]:      https://travis-ci.org/shadowsocksr/shadowsocksr.svg?branch=manyuser
-[Debian sid]:        https://packages.debian.org/unstable/python/shadowsocks
-[iOS]:               https://github.com/shadowsocks/shadowsocks-iOS/wiki/Help
-[Issue Tracker]:     https://github.com/shadowsocksr/shadowsocksr/issues?state=open
-[OpenWRT]:           https://github.com/shadowsocks/openwrt-shadowsocks
-[macOS]:             https://github.com/shadowsocksr/ShadowsocksX-NG
-[Travis CI]:         https://travis-ci.org/shadowsocksr/shadowsocksr
-[Windows]:           https://github.com/shadowsocksr/shadowsocksr-csharp
-[Wiki]:              https://github.com/breakwa11/shadowsocks-rss/wiki
+    - 数据库机的 iptables、firewall 得对本节点IP开放
+    - 数据库机的 mysql 的对本节点进行授权（不推荐使用root账号）
+    - 再不懂可以进小群咨询 [我要进小群](https://github.com/ssrpanel/SSRPanel/wiki/%E6%88%91%E8%A6%81%E8%BF%9B%E5%B0%8F%E7%BE%A4)
