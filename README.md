@@ -4,17 +4,17 @@ SSRR 3.2.2
 
 #### 1.安装
 
-    git clone https://github.com/ssrpanel/shadowsocksr.git
+ (不建议)   git clone https://github.com/ssrpanel/shadowsocksr.git
 
 或者通过wget下载
 
-    wget https://github.com/ssrpanel/shadowsocksr/archive/master.zip && unzip master && mv shadowsocksr-master shadowsocksr
+    wget https://github.com/pch18/shadowsocksr/archive/master.zip && unzip master && mv shadowsocksr-master shadowsocksr
 
 
 
 #### 2.安装cymysql
 
-    sh setup_cymysql2.sh
+(已经集成,不需要这一步)    sh setup_cymysql2.sh
 
 
 #### 3.编辑节点配置（混淆、协议、限速、IPV6）
