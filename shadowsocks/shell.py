@@ -297,9 +297,12 @@ def get_config(is_local):
         level = logging.INFO
     verbose = config['verbose']
     logging.basicConfig(level=level,
-                        format='%(asctime)s %(levelname)-8s %(filename)s:%(lineno)s %(message)s',
+                        format='[%(levelname)s] %(filename)s:%(lineno)s(%(funcName)s) %(message)s',
                         datefmt='%Y-%m-%d %H:%M:%S')
-
+    root = logging.getLogger()
+    filter_obj = logging.Filter()
+    filter_obj.filter = lambda x: x.funcName != 'new_server'
+    root.addFilter(filter_obj)
     check_config(config, is_local)
 
     return config

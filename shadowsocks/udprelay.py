@@ -217,6 +217,7 @@ class UDPRelay(object):
         server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 1024 * 1024)
         self._server_socket = server_socket
         self._stat_callback = stat_callback
+        self.one_minute_ips = set()
 
     def _get_a_server(self):
         server = self._config['server']
@@ -339,6 +340,7 @@ class UDPRelay(object):
     def _handle_server(self):
         server = self._server_socket
         data, r_addr = server.recvfrom(BUF_SIZE)
+        self.one_minute_ips.add(r_addr[0])
         ogn_data = data
         if not data:
             logging.debug('UDP handle_server: data is empty')
@@ -580,6 +582,7 @@ class UDPRelay(object):
         self._eventloop.add(server_socket,
                             eventloop.POLL_IN | eventloop.POLL_ERR, self)
         loop.add_periodic(self.handle_periodic)
+        loop.add_periodic(self._clear_one_minute_ips, tick=60)
 
     def remove_handler(self, client):
         if hash(client) in self._timeout_cache:
@@ -590,6 +593,9 @@ class UDPRelay(object):
 
     def _sweep_timeout(self):
         self._timeout_cache.sweep()
+
+    def _clear_one_minute_ips(self):
+        self.one_minute_ips.clear()
 
     def _close_tcp_client(self, client):
         if client.remote_address:
@@ -656,3 +662,6 @@ class UDPRelay(object):
             self._server_socket.close()
             self._cache.clear(0)
             self._cache_dns_client.clear(0)
+
+    def __getitem__(self, item):
+        return self.__dict__.get(item)

@@ -53,7 +53,7 @@ EVENT_NAMES = {
 }
 
 # we check timeouts every TIMEOUT_PRECISION seconds
-TIMEOUT_PRECISION = 2
+TIMEOUT_PRECISION = 1
 
 
 class KqueueLoop(object):
@@ -159,6 +159,7 @@ class EventLoop(object):
         self._fdmap = {}  # (f, handler)
         self._last_time = time.time()
         self._periodic_callbacks = []
+        self._periodic_callbacks_tick = {}
         self._stopping = False
         logging.debug('using event model: %s', model)
 
@@ -180,11 +181,13 @@ class EventLoop(object):
         del self._fdmap[fd]
         self._impl.unregister(fd)
 
-    def add_periodic(self, callback):
+    def add_periodic(self, callback, tick=2):
         self._periodic_callbacks.append(callback)
+        self._periodic_callbacks_tick[callback] = (tick, 0)
 
     def remove_periodic(self, callback):
         self._periodic_callbacks.remove(callback)
+        del self._periodic_callbacks_tick[callback]
 
     def modify(self, f, mode):
         fd = f.fileno()
@@ -198,7 +201,10 @@ class EventLoop(object):
         while not self._stopping:
             asap = False
             try:
-                events = self.poll(TIMEOUT_PRECISION)
+                if len(self._fdmap) > 0:
+                    events = self.poll(TIMEOUT_PRECISION)
+                else:
+                    continue
             except (OSError, IOError) as e:
                 if errno_from_exception(e) in (errno.EPIPE, errno.EINTR):
                     # EPIPE: Happens when the client closes the connection
@@ -224,7 +230,10 @@ class EventLoop(object):
             now = time.time()
             if asap or now - self._last_time >= TIMEOUT_PRECISION:
                 for callback in self._periodic_callbacks:
-                    callback()
+                    tick, ticked = self._periodic_callbacks_tick[callback]
+                    self._periodic_callbacks_tick[callback] = (tick, (ticked + 1) % (tick + 1))
+                    if tick == ticked:
+                        callback()
                 self._last_time = now
             if events and not handle:
                 time.sleep(0.001)

@@ -1196,6 +1196,7 @@ class TCPRelay(object):
         self.server_connections = 0
         self.protocol_data = obfs.obfs(config['protocol']).init_data()
         self.obfs_data = obfs.obfs(config['obfs']).init_data()
+        self.one_minute_ips = set()
 
         if config.get('connect_verbose_info', 0) > 0:
             common.connect_log = logging.info
@@ -1246,6 +1247,7 @@ class TCPRelay(object):
         self._eventloop.add(self._server_socket,
                             eventloop.POLL_IN | eventloop.POLL_ERR, self)
         self._eventloop.add_periodic(self.handle_periodic)
+        self._eventloop.add_periodic(self._clear_one_minute_ips,tick=60)
 
     def remove_handler(self, client):
         if hash(client) in self._timeout_cache:
@@ -1398,6 +1400,9 @@ class TCPRelay(object):
     def _sweep_timeout(self):
         self._timeout_cache.sweep()
 
+    def _clear_one_minute_ips(self):
+        self.one_minute_ips.clear()
+
     def _close_tcp_client(self, client):
         if client.remote_address:
             logging.debug('timed out: %s:%d' %
@@ -1421,6 +1426,7 @@ class TCPRelay(object):
             try:
                 logging.debug('accept')
                 conn = self._server_socket.accept()
+                self.one_minute_ips.add(conn[1][0])
                 handler = TCPRelayHandler(self, self._fd_to_handlers,
                                 self._eventloop, conn[0], self._config,
                                 self._dns_resolver, self._is_local)
@@ -1481,3 +1487,6 @@ class TCPRelay(object):
             self._server_socket.close()
             for handler in list(self._fd_to_handlers.values()):
                 handler.destroy()
+
+    def __getitem__(self, item):
+        return self.__dict__.get(item)
