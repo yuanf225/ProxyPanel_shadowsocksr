@@ -8,16 +8,72 @@ SSRR 3.2.2
 
 或者通过wget下载
 
-    wget https://github.com/pch18/shadowsocksr/archive/master.zip && unzip master && mv shadowsocksr-master shadowsocksr
+    wget https://github.com/ssrpanel/shadowsocksr/archive/master.zip && unzip master && mv shadowsocksr-master shadowsocksr
 
 
 
-#### 2.安装cymysql
+#### 2.更新软件源
 
-(已经集成,不需要这一步)    sh setup_cymysql2.sh
+Centos: yum update
+Ubuntu/Debian: apt-get update
 
+#### 3.安装Python3.7.1(最新)运行环境
 
-#### 3.编辑节点配置（混淆、协议、限速、IPV6）
+1. 安装pyenv 参照:[Pyenv Common build problems](https://github.com/pyenv/pyenv/wiki/Common-build-problems)
+```
+# Ubuntu/Debian:
+sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
+libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
+xz-utils tk-dev libffi-dev liblzma-dev
+
+# Fedora/CentOS/RHEL(aws ec2):
+sudo yum install zlib-devel bzip2 bzip2-devel readline-devel sqlite sqlite-devel \
+openssl-devel xz xz-devel libffi-devel
+```
+
+2.安装pyenv
+```
+curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+```
+
+3.添加环境变量到.bashrc
+```
+cat >> ~/.bashrc << EOF
+export PATH="/root/.pyenv/bin:\$PATH"
+eval "\$(pyenv init -)"
+eval "\$(pyenv virtualenv-init -)"
+EOF
+source ~/.bashrc
+```
+4.安装并启用python
+```
+pyenv install 3.7.1
+pyenv global 3.7.1
+```
+
+5.安装shadowsocks依赖
+```
+cd shadowsocksr
+pip install -r requestment.txt
+```
+---
+好了上面的教程写完了.但是!!!!!!!这些不是必须的.那是我的开发环境.
+如果你坚持要用python2的话.我也是在ubuntu环境测试通过了的.
+但是你得这样来:
+```
+# Ubuntu/Debian:
+apt-get install python-pip
+
+# 其他系统自己想办法
+```
+然后:
+
+```
+cd shadowsocksr
+pip install -r requestment.txt
+```
+
+#### 4.编辑节点配置（混淆、协议、限速、IPV6）
 
     vi user-mysql.json
 
@@ -32,7 +88,7 @@ SSRR 3.2.2
     redirect 请求失败时返回信息伪造成访问配置里网址
 
 
-#### 4.编辑数据库连接信息
+#### 5.编辑数据库连接信息
 
     vi usermysql.json
 
@@ -44,7 +100,7 @@ SSRR 3.2.2
     node_id 节点ID，对应面板里的 节点列表 最左侧的id（请先将面板搭建好，然后创建一个节点，就有节点ID了）
     transfer_mul 节点流量计算比例，默认1.0，填1也可以，1表示：用了100M算100M，10表示用了100M算1000M，0.1表示用了100M算10M。
 
-#### 5.运行、关闭、看日志
+#### 6.运行、关闭、看日志
 
     sh logrun.sh
     sh stop.sh

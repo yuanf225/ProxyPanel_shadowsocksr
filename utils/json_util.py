@@ -1,3 +1,10 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# @Time    : 2018/10/27 13:59
+# @Author  : Sakura
+# @Site    : 
+# @File    : net_util.py
+# @Software: PyCharm
 from json import dumps, loads, JSONEncoder, JSONDecoder
 import pickle
 

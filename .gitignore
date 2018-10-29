@@ -30,6 +30,8 @@ htmlcov
 .DS_Store
 .idea
 
+.vscode
+
 # Ignore user config
 user-config.json
 userapiconfig.py
