@@ -7,7 +7,7 @@
 # @Software: PyCharm
 
 
-def from_map_ipv6_get_ipv4(address:str):
+def from_map_ipv6_get_ipv4(address):
     if address.startswith("::ffff:"):
         return address[7:]
     if address.startswith("0:0:0:0:0:ffff:"):
