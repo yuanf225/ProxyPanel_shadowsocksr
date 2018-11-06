@@ -1,23 +1,19 @@
-SSRR 3.2.2
+SSRR
 
 兼容SSRPanel的自改版SSR(R)后端，可兼容原版SS、SSR
 
-#### 1.安装
+## 安装
+- wget https://github.com/ssrpanel/shadowsocksr/archive/master.zip && unzip master && mv shadowsocksr-master shadowsocksr
 
- (不建议)   git clone https://github.com/ssrpanel/shadowsocksr.git
+## 更新软件源
+#### CentOS
+- yum update
 
-或者通过wget下载
+#### Ubuntu/Debian
+- sudo apt-get update
 
-    wget https://github.com/ssrpanel/shadowsocksr/archive/master.zip && unzip master && mv shadowsocksr-master shadowsocksr
-
-
-
-#### 2.更新软件源
-
-Centos: yum update
-Ubuntu/Debian: apt-get update
-
-#### 3.安装Python3.7.1(最新)运行环境
+## 安装
+#### Python3.x
 
 1. 安装pyenv 参照:[Pyenv Common build problems](https://github.com/pyenv/pyenv/wiki/Common-build-problems)
 ```
@@ -45,6 +41,7 @@ eval "\$(pyenv virtualenv-init -)"
 EOF
 source ~/.bashrc
 ```
+
 4.安装并启用python
 ```
 pyenv install 3.7.1
@@ -57,23 +54,17 @@ cd shadowsocksr
 pip install -r requestment.txt
 ```
 ---
-好了上面的教程写完了.但是!!!!!!!这些不是必须的.那是我的开发环境.
-如果你坚持要用python2的话.我也是在ubuntu环境测试通过了的.
-但是你得这样来:
+
+#### Python2.x
 ```
 # Ubuntu/Debian:
 apt-get install python-pip
 
-# 其他系统自己想办法
-```
-然后:
-
-```
 cd shadowsocksr
 pip install -r requestment.txt
 ```
 
-#### 4.编辑节点配置（混淆、协议、限速、IPV6）
+#### 编辑节点配置（混淆、协议、限速、IPV6）
 
     vi user-mysql.json
 
@@ -88,7 +79,7 @@ pip install -r requestment.txt
     redirect 请求失败时返回信息伪造成访问配置里网址
 
 
-#### 5.编辑数据库连接信息
+#### 编辑数据库连接信息
 
     vi usermysql.json
 
@@ -100,7 +91,7 @@ pip install -r requestment.txt
     node_id 节点ID，对应面板里的 节点列表 最左侧的id（请先将面板搭建好，然后创建一个节点，就有节点ID了）
     transfer_mul 节点流量计算比例，默认1.0，填1也可以，1表示：用了100M算100M，10表示用了100M算1000M，0.1表示用了100M算10M。
 
-#### 6.运行、关闭、看日志
+#### 运行、关闭、看日志
 
     sh logrun.sh
     sh stop.sh
