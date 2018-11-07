@@ -20,11 +20,11 @@ SSRR
 # Ubuntu/Debian:
 sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
 libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
-xz-utils tk-dev libffi-dev liblzma-dev
+xz-utils tk-dev libffi-dev liblzma-dev gcc
 
 # Fedora/CentOS/RHEL(aws ec2):
 sudo yum install zlib-devel bzip2 bzip2-devel readline-devel sqlite sqlite-devel \
-openssl-devel xz xz-devel libffi-devel
+openssl-devel xz xz-devel libffi-devel gcc
 ```
 
 2.安装pyenv
