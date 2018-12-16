@@ -21,7 +21,7 @@ class TransferBase(object):
     def __init__(self):
         import threading
         self.event = threading.Event()
-        self.key_list = ['port', 'u', 'd', 'transfer_enable', 'passwd', 'enable']
+        self.key_list = ['port', 'u', 'd', 'transfer_enable', 'passwd', 'enable', 'protocol_param']
         self.last_get_transfer = {} #上一次的实际流量
         self.last_update_transfer = {} #上一次更新到的流量（小于等于实际流量）
         self.force_update_transfer = set() #强制推入数据库的ID
