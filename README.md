@@ -1,6 +1,6 @@
 SSRR
 
-兼容SSRPanel的自改版SSR(R)后端，可兼容原版SS、SSR
+兼容SSRPanel的自改版SSR(R)后端，可兼容原版SS、SSR，本版本是带有IP自动上报功能的
 
 ## 安装
 - wget https://github.com/ssrpanel/shadowsocksr/archive/master.zip && unzip master && mv shadowsocksr-master shadowsocksr
@@ -20,11 +20,14 @@ SSRR
 # Ubuntu/Debian:
 sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
 libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
-xz-utils tk-dev libffi-dev liblzma-dev gcc
+xz-utils tk-dev libffi-dev liblzma-dev gcc readline readline-devel readline-static \
+openssl openssl-devel openssl-static sqlite-devel bzip2-devel bzip2-libs
 
 # Fedora/CentOS/RHEL(aws ec2):
-sudo yum install zlib-devel bzip2 bzip2-devel readline-devel sqlite sqlite-devel \
-openssl-devel xz xz-devel libffi-devel gcc
+sudo yum install -y zlib-devel bzip2 bzip2-devel readline-devel sqlite sqlite-devel \
+openssl-devel xz xz-devel libffi-devel gcc readline readline-devel readline-static \
+openssl openssl-devel openssl-static sqlite-devel bzip2-devel bzip2-libs
+
 ```
 
 2.安装pyenv
@@ -42,7 +45,7 @@ EOF
 source ~/.bashrc
 ```
 
-4.安装并启用python
+4.用pyenv安装并启用python
 ```
 pyenv install 3.7.1
 pyenv global 3.7.1
