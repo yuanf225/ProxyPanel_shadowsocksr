@@ -3,7 +3,7 @@ SSRR
 兼容ProxyPanel & SSRPanel的自改版SSR(R)后端，可兼容原版SS、SSR，本版本是带有IP自动上报功能的
 
 ## 安装
--git clone https://github.com/ZBrettonYe/shadowsocksr.git
+-git clone https://github.com/ZBrettonYe/ProxyPanel_shadowsocksr.git
 
 ## 更新软件源
 #### CentOS
