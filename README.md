@@ -1,9 +1,9 @@
 SSRR
 
-兼容SSRPanel的自改版SSR(R)后端，可兼容原版SS、SSR，本版本是带有IP自动上报功能的
+兼容ProxyPanel & SSRPanel的自改版SSR(R)后端，可兼容原版SS、SSR，本版本是带有IP自动上报功能的
 
 ## 安装
-- wget https://github.com/ssrpanel/shadowsocksr/archive/master.zip && unzip master && mv shadowsocksr-master shadowsocksr
+-git clone https://github.com/ZBrettonYe/shadowsocksr.git
 
 ## 更新软件源
 #### CentOS
